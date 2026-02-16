@@ -1,4 +1,5 @@
 from urllib import request
+import django
 from django.shortcuts import render,redirect
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
@@ -248,10 +249,17 @@ def teacher_register(request):
 
     return render(request, "teacher-register.html")
 
+
+@login_required(login_url='teacher_login')
 def teacher_dashboard(request):
-    # Filter cases created by the current teacher only
-    cases = Case.objects.filter(created_by=request.user).order_by("-created_at")[:10]
-    total_cases = Case.objects.filter(created_by=request.user).count()
+
+    cases = Case.objects.filter(
+        created_by=request.user
+    ).order_by("-created_at")[:10]
+
+    total_cases = Case.objects.filter(
+        created_by=request.user
+    ).count()
 
     profile = None
     try:
@@ -273,14 +281,11 @@ def teacher_dashboard(request):
         'total_cases': total_cases,
     })
 
-
-
 def teacher_logout(request):
     request.session.flush()
     return redirect("teacher_login")
 
 
-@login_required(login_url='teacher_login')
 def uniform_violations(request):
     if request.method == "POST":
         print(request.POST)
