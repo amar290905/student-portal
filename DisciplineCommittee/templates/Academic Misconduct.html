@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Academic Misconduct Report</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Poppins", Arial, sans-serif;
+    background: linear-gradient(135deg, #020b1a, #07162f);
+    padding: 30px 12px;
+    margin: 0;
+    color: #ffffff;
+}
+
+.container {
+    max-width: 980px;
+    margin: 0 auto;
+    background: rgba(7, 22, 47, 0.96);
+    backdrop-filter: blur(10px);
+    padding: 32px 42px 40px;
+    border-radius: 22px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(59, 130, 246, 0.35);
+}
+
+.header {
+    text-align: center;
+    padding: 20px;
+    border-radius: 18px;
+    margin-bottom: 26px;
+    background: linear-gradient(135deg, #0b1f3d, #1e3a8a);
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin: 14px 0 6px;
+    font-size: 14px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #1e3a8a;
+    background: #0b1f3d;
+    outline: none;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+input[readonly] {
+    background: #0f2a52;
+    opacity: 0.85;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.checkbox-title {
+    margin-top: 18px;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.checkbox-group {
+    margin-top: 10px;
+    border: 1px solid #1e3a8a;
+    background: #0b1f3d;
+    border-radius: 14px;
+    padding: 16px 18px;
+}
+
+.checkbox-group label {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin: 8px 0;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 110px;
+}
+
+button {
+    width: 100%;
+    margin-top: 24px;
+    padding: 15px;
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: #ffffff;
+    border: none;
+    border-radius: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.checkbox-group ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.checkbox-group li {
+    margin-bottom: 10px;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin: 0;
+    width: 16px;
+    height: 16px;
+}
+
+</style>
+
+<script>
+function fetchStudent() {
+    const usn = document.getElementById("usn").value;
+
+    if (!usn) return;
+
+    fetch(`/api/get-student/?usn=${usn}`)
+        .then(response => {
+            if (!response.ok) throw new Error("Student not found");
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById("name").value = data.name;
+            document.getElementById("year").value = data.year;
+            document.getElementById("department").value = data.department;
+        })
+        .catch(() => {
+            alert("Student not found");
+            document.getElementById("name").value = "";
+            document.getElementById("year").value = "";
+            document.getElementById("department").value = "";
+        });
+}
+</script>
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h2>Academic Misconduct Reporting Form</h2>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label>UUCMS / USN Number</label>
+        <input type="text"
+               id="usn"
+               name="usn"
+               placeholder="Enter UUCMS / USN"
+               onblur="fetchStudent()"
+               required>
+
+        <label>Student Name</label>
+        <input type="text"
+               id="name"
+               name="name"
+               readonly>
+
+        <div class="row">
+            <div>
+                <label>Year</label>
+                <input type="text"
+                       id="year"
+                       name="year"
+                       readonly>
+            </div>
+
+            <div>
+                <label>Department</label>
+                <input type="text"
+                       id="department"
+                       name="department"
+                       readonly>
+            </div>
+        </div>
+
+        <div class="row">
+            <div>
+                <label>Date</label>
+                <input id="dateField" name="date" type="date" required>
+            </div>
+        </div>
+
+        <div class="checkbox-title">
+            Academic Misconduct (Select all that apply)
+        </div>
+
+        <div class="checkbox-group">
+            <ul>  
+            <li><label><input type="checkbox" name="misconduct" value="Absent"> Absent without prior intimation</label></li>
+            <li><label><input type="checkbox" name="misconduct" value="Mobile"> Use of mobile devices</label></li>
+            <li><label><input type="checkbox" name="misconduct" value="Disruption"> Disruption of class</label></li>
+            <li><label><input type="checkbox" name="misconduct" value="Assignment"> Assignment issues</label></li>
+            <li><label><input type="checkbox" name="misconduct" value="Behaviour"> Inappropriate conduct</label></li>
+            </ul>
+        </div>
+
+        <label>Other Misconduct (if any)</label>
+        <textarea name="description" placeholder="Describe additional concerns here..."></textarea>
+
+        <button type="submit">Submit Report</button>
+    </form>
+
+</div>
+
+<script>
+const dateField = document.getElementById("dateField");
+dateField.value = new Date().toISOString().split("T")[0];
+</script>
+
+</body>
+</html>

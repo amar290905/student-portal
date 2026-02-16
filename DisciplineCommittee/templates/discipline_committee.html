@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Discipline Committee</title>
+  {% load static %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'DisciplineCommittee/style.css' %}">
+  <link rel="stylesheet" href="{% static 'DisciplineCommittee/forms.css' %}">
+  <link rel="icon" type="image/svg+xml" href="{% static 'DisciplineCommittee/favicon.svg' %}">
+</head>
+<body>
+  <main class="bubble-container">
+    <h2>Discipline Committee Portal</h2>
+    <nav>
+      <a class="login-btn" href="{% url 'student_login' %}">Student Login</a>
+      <a class="login-btn" href="{% url 'student_register' %}">Student Register</a>
+      <a class="login-btn" href="{% url 'teacher_login' %}">Teacher Login</a>
+      <a class="login-btn" href="{% url 'student_dashboard' %}">Student Dashboard</a>
+      <a class="login-btn" href="{% url 'add_cases' %}">Add Cases</a>
+      <a class="login-btn" href="{% url 'home' %}">Home</a>
+    </nav>
+    <p class="portal-note">Use the links above to navigate between login pages, dashboards and case forms.</p>
+  </main>
+  <script src="{% static 'DisciplineCommittee/script.js' %}"></script>
+  <script src="{% static 'DisciplineCommittee/forms.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Cases</title>
+  {% load static %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'DisciplineCommittee/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'DisciplineCommittee/forms.css' %}">
+  <link rel="icon" type="image/svg+xml" href="{% static 'DisciplineCommittee/favicon.svg' %}">
+</head>
+<body>
+
+  <header class="top-header">
+  <div class="top-header-inner header-3col">
+  <a href="{% url 'home' %}" class="back-btn">← Back</a>
+
+  <div class="brand">Teacher Portal</div>
+
+  <div class="header-spacer"></div>
+</div>
+</header>
+
+  <div class="app">
+   <h2 class="page-title" style="color: white;">Add New Cases</h2>
+
+
+    <div class="case-list">
+      <a href="{% url 'case_late' %}" class="case-item">
+        <div class="case-title" style="font-size:22px; color: white;">Late to Class</div>
+<div class="case-desc" style="font-size:16px;">Student arrived after the scheduled time.</div>
+
+      </a>
+
+      <a href="{% url 'uniform_violations' %}" class="case-item">
+        <div class="case-title" style="font-size:22px; color: white;">Uniform Violations</div>
+        <div class="case-desc" style="font-size:16px;">Uniform not worn properly / missing items.</div>
+      </a>
+
+      <a href="{% url 'case_academic' %}" class="case-item">
+        <div class="case-title" style="font-size:22px; color: white;">Academic Misconduct</div>
+        <div class="case-desc" style="font-size:16px;">Homework, classwork, or exam-related issue.</div>
+      </a>
+
+      <a href="{% url 'case_others' %}" class="case-item">
+        <div class="case-title" style="font-size:22px; color: white;">Others</div>
+        <div class="case-desc" style="font-size:16px;">Any other discipline-related incident.</div>
+      </a>
+    </div>
+  </div>
+
+  <script src="{% static 'DisciplineCommittee/forms.js' %}"></script>
+</body>
+</html>

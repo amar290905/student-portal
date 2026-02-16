@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Uniform Violation Report Form</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'DisciplineCommittee/style.css' %}">
+<link rel="stylesheet" href="{% static 'DisciplineCommittee/forms.css' %}">
+<link rel="icon" type="image/svg+xml" href="{% static 'DisciplineCommittee/favicon.svg' %}">
+
+<script>
+function fetchStudent() {
+    const usn = document.getElementById("usn").value;
+
+    if (!usn) return;
+
+    fetch(`/api/get-student/?usn=${usn}`)
+        .then(response => {
+            if (!response.ok) throw new Error("Not found");
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById("name").value = data.name;
+            document.getElementById("year").value = data.year;
+            document.getElementById("department").value = data.department;
+        })
+        .catch(() => {
+            alert("Student not found");
+            document.getElementById("name").value = "";
+            document.getElementById("year").value = "";
+            document.getElementById("department").value = "";
+        });
+}
+</script>
+
+<style>
+label{
+    display:block;
+    margin-bottom:6px;
+    color:#ffffff;
+    font-weight:600;
+}
+
+select, input, textarea{
+    width:100%;
+    padding:12px;
+    background-color:#0f1b2d;
+    color:#ffffff;
+    border:1px solid #3b82f6;
+    border-radius:8px;
+    font-size:15px;
+}
+
+input[readonly]{
+    background:#132b4f;
+    opacity:0.85;
+}
+
+select:focus, input:focus, textarea:focus{
+    outline:none;
+    border-color:#6366f1;
+    box-shadow:0 0 0 2px rgba(99,102,241,0.4);
+}
+</style>
+</head>
+
+<body class="uniform">
+
+<div class="container">
+    <div class="header">
+        <h2>Uniform Norm Violation Report</h2>
+    </div>
+
+    <form method="post" action="{% url 'uniform_violations' %}">
+        {% csrf_token %}
+        <font size="4">
+
+        <div class="form-row">
+
+            <div class="full">
+                <label>UUCMS / USN Number</label>
+                <input type="text"
+                       id="usn"
+                       name="usn"
+                       placeholder="Enter UUCMS number"
+                       onblur="fetchStudent()"
+                       required>
+            </div>
+
+            <div class="full">
+                <label>Student Name</label>
+                <input type="text"
+                       id="name"
+                       name="name"
+                       readonly>
+            </div>
+
+            <div>
+                <label>Year</label>
+                <input type="text"
+                       id="year"
+                       name="year"
+                       readonly>
+            </div>
+
+            <div>
+                <label>Department</label>
+                <input type="text"
+                       id="department"
+                       name="department"
+                       readonly>
+            </div>
+            <div>
+                <label>Date of Observation</label>
+                <input type="date"
+                       id="dateField"
+                       name="date"
+                       required>
+            </div>
+
+            <div class="full">
+                <label>Total Number of Prior Violations</label>
+                <input type="number"
+                       name="prior_count"
+                       min="0"
+                       placeholder="Enter count"
+                       required>
+            </div>
+
+            <div class="full">
+                <label><b>Type of Uniform Norm Violation (Select All That Apply)</b></label>
+
+                <div class="checkbox-group">
+                    <ul>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="violation" value="ID Card">
+                                ID card not worn
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="violation" value="Footwear">
+                                Non-compliance with formal footwear
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="violation" value="Blazer">
+                                Blazer not worn
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="violation" value="Tie">
+                                Tie not worn
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <label>Other Uniform Norm Violations (if any)</label>
+        <textarea name="description"
+                  placeholder="Describe additional concerns here..."></textarea>
+
+        <button type="submit">Submit Report</button>
+        </font>
+    </form>
+</div>
+
+<script>
+const today = new Date();
+document.getElementById("dateField").value =
+    today.toISOString().slice(0, 10);
+</script>
+
+<script src="{% static 'DisciplineCommittee/forms.js' %}"></script>
+</body>
+</html>

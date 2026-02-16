@@ -1,0 +1,216 @@
+:root{
+  --primary-color: #6D28D9;
+  --accent: var(--primary-color);
+}
+
+*{ box-sizing: border-box; margin:0; padding:0; font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif; }
+
+body.teacher {
+  /* Lavender/dark theme */
+  --primary-color: #8a60f0;
+  --accent: #8a60f0;
+  --bg-gradient: linear-gradient(120deg,#120a26 0%, #2b1440 45%, #6b3fcf 100%);
+  --card-bg: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  --card-border: rgba(255,255,255,0.04);
+  --text-primary: #f8f6ff;
+  /* make muted text more readable */
+  --muted: rgba(248,246,255,0.95);
+  --purple: #cbb3ff;
+  background: var(--bg-gradient);
+  color: var(--text-primary);
+  font-size: 16px; /* base font size for readability */
+  line-height: 1.5;
+}
+
+/* Make totals more prominent */
+.card h1{ font-size:48px; color: var(--text-primary); margin-top:8px; }
+.profile{ display:flex; align-items:center; gap:14px; }
+.avatar{ width:68px; height:68px; border-radius:50%; box-shadow: 0 8px 30px rgba(63,37,136,0.28); }
+
+/* Desktop header */
+.top-header{ display:none; }
+
+.top-header-inner{
+  max-width:1100px;
+  margin:0 auto;
+  padding:14px 20px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.brand{
+  font-weight:800;
+  font-size:18px;
+}
+
+.app{
+  width:100%;
+  max-width:1100px;
+  margin:0 auto;
+  min-height:100vh;
+  padding:20px;
+  padding-bottom:110px;
+}
+
+.profile{
+  padding:8px 6px 2px;
+}
+
+.avatar{
+
+  background:linear-gradient(90deg,#56417b,#5b4574);
+  border-radius:50%;
+  margin-bottom:10px;
+  border:2px solid rgba(255,255,255,0.04);
+}
+
+.avatar-img{ width:68px; height:68px; border-radius:50%; display:block; object-fit:cover; }
+
+/* buttons used in actions column */
+.btn{ background:transparent; color:var(--text-primary); border:1px solid rgba(255,255,255,0.06); padding:6px 8px; border-radius:6px; cursor:pointer; margin-right:6px; }
+.btn-sm{ font-size:13px; padding:6px 8px; }
+.btn.danger{ background:rgba(239,68,68,0.08); border-color:rgba(239,68,68,0.18); color:#ffdede; }
+
+.profile h2{
+  font-size:32px;
+  font-weight:800;
+  margin-bottom:6px;
+  color:var(--text-primary);
+}
+
+.card,
+.activities{
+  background:var(--card-bg);
+  border-radius:12px;
+  border:1px solid var(--card-border);
+  box-shadow:var(--shadow-lg);
+}
+
+.card{
+  padding:18px;
+  margin:16px 0;
+}
+
+.card p{
+  font-size:15px;
+  color:var(--muted);
+}
+
+.card h1{
+  font-size:48px;
+  color:var(--text-primary);
+  margin-top:6px;
+  font-weight:800;
+}
+
+.activities{
+  padding:16px;
+}
+
+.activities h3{
+  margin:2px 0 10px;
+  font-size:20px;
+  font-weight:700;
+  color:var(--text-primary);
+}
+
+.table-wrap{
+  overflow-x:auto;
+  border-radius:12px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:15px;
+  min-width:320px;
+}
+
+th, td{
+  padding:10px 12px;
+  border-bottom:1px solid rgba(112,80,255,0.08);
+  text-align:left;
+}
+
+th{
+  background:linear-gradient(180deg, rgba(243,238,255,0.9), rgba(243,238,255,0.6));
+  color:var(--purple);
+  font-weight:700;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+tbody tr:nth-child(even){
+  background: rgba(112,80,255,0.03);
+}
+
+tbody tr:hover{
+  background: rgba(112,80,255,0.06);
+}
+
+tbody tr:last-child td{
+  border-bottom:none;
+}
+
+#noData{
+  text-align:center;
+  color:var(--muted);
+  display:none;
+  margin:12px 0 4px;
+}
+
+/* Floating Add Case Button */
+.fab{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:10;
+  background:var(--purple);
+  color:#fff;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 16px;
+  border-radius:999px;
+  box-shadow:0 14px 28px rgba(109,40,217,0.35);
+}
+
+.fab-icon{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.18);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+}
+
+.fab-text{
+  font-size:14px;
+  font-weight:700;
+}
+
+.fab:hover{
+  filter: brightness(0.95);
+  transform: translateY(-3px);
+}
+
+/* Desktop only */
+@media (min-width:1024px){
+  .top-header{
+    display:block;
+    position:sticky;
+    top:0;
+    z-index:5;
+    background:rgba(255,255,255,0.35);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(255,255,255,0.35);
+  }
+  .app{
+    padding-top:24px;
+  }
+}

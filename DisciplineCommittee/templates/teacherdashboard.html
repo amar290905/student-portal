@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teacher Home</title>
+
+  {% load static %}
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="{% static 'DisciplineCommittee/favicon.svg' %}">
+
+  <!-- Dashboard CSS -->
+  <link rel="stylesheet" href="{% static 'DisciplineCommittee/teacherdashboard.css' %}">
+</head>
+
+<body class="teacher">
+
+  <!-- Header -->
+  <header class="top-header">
+    <div class="top-header-inner">
+      <div class="brand">Teacher Portal</div>
+    </div>
+  </header>
+
+  <div class="app">
+
+    <!-- Profile -->
+    <div class="profile">
+      <div class="avatar">
+        <img src="{% static 'DisciplineCommittee/favicon.svg' %}" alt="Teacher" class="avatar-img">
+      </div>
+      <h2>Welcome</h2>
+    </div>
+
+    <!-- Total Cases -->
+    <div class="card">
+      <p>Total Cases</p>
+      <h1>{{ total_cases }}</h1>
+    </div>
+
+    <!-- Recent Activities -->
+    <div class="activities">
+      <h3>Recent Activities</h3>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Category</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+{% for case in cases %}
+<tr>
+    <td>{{ case.student_name }}</td>
+    <td>{{ case.case_type }}</td>
+    <td>{{ case.date }}</td>
+    <td>View</td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="4">No cases added yet</td>
+</tr>
+{% endfor %}
+</tbody>
+
+
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Add Case Button -->
+  <a class="fab" href="{% url 'add_case' %}">
+    <span class="fab-icon">＋</span>
+    <span class="fab-text">Add Case</span>
+  </a>
+
+</body>
+</html>

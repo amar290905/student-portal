@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bubble Login / Signup</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'DisciplineCommittee/style.css' %}">
+  <link rel="icon" type="image/svg+xml" href="{% static 'DisciplineCommittee/favicon.svg' %}">
+</head>
+<body class="portal">
+
+  <div class="bubbles">
+    <span></span><span></span><span></span>
+    <span></span><span></span><span></span>
+    <span></span>
+  </div>
+
+  <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmE3YjM5bTRoM3ZneTYxbDdjcmNjc2NrNXd4NXgybHZ5dzdscXNtaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ATm4r0cHYxmdG/giphy.gif" alt="background animation" class="bg-gif">
+
+  <main class="responsive-wrapper">
+    <div class="bubble-container" id="portal">
+      <h2>Login Portal</h2>
+      <nav>
+        <a class="login-btn" href="{% url 'student_login' %}"><span class="btn-icon">🎓</span><span>Student Login</span></a>
+        <a class="login-btn" href="{% url 'teacher_login' %}"><span class="btn-icon">🧑‍🏫</span><span>Teacher Login</span></a>
+      </nav>
+    </div>
+  </main>
+  <script src="{% static 'DisciplineCommittee/script.js' %}"></script>
+</body>
+</html>

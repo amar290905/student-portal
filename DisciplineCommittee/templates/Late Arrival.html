@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Late Arrival Form</title>
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'DisciplineCommittee/style.css' %}">
+<link rel="stylesheet" href="{% static 'DisciplineCommittee/forms.css' %}">
+<link rel="icon" type="image/svg+xml" href="{% static 'DisciplineCommittee/favicon.svg' %}">
+
+<script>
+function fetchStudent() {
+    const usn = document.getElementById("usn").value;
+
+    if (!usn) return;
+
+    fetch(`/api/get-student/?usn=${usn}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Student not found");
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById("name").value = data.name;
+            document.getElementById("email").value = data.email;
+            document.getElementById("department").value = data.department;
+            document.getElementById("year").value = data.year;
+        })
+        .catch(() => {
+            alert("Student not found");
+            document.getElementById("name").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("department").value = "";
+            document.getElementById("year").value = "";
+        });
+}
+</script>
+</head>
+
+<body class="late">
+
+<div class="container">
+    <div class="header">
+        <h2>Late Arrival Student Form</h2>
+    </div>
+
+    <form method="post" action="{% url 'case_late' %}">
+     {% csrf_token %}
+     <!-- Hidden input for case_type -->
+    <input type="hidden" name="case_type" value="Late Arrival">
+    <div class="form-row">
+
+        <div class="full">
+            <label>USN Number</label>
+            <input type="text"
+                   id="usn"
+                   name="usn"
+                   placeholder="Enter USN number"
+                   onblur="fetchStudent()"
+                   required>
+        </div>
+
+        <div class="full">
+            <label>Student Name</label>
+            <input type="text"
+                   id="name"
+                   name="name"
+                   readonly>
+        </div>
+
+        <div class="full">
+            <label>Email</label>
+            <input type="email"
+                   id="email"
+                   name="email"
+                   readonly>
+        </div>
+
+        <div>
+            <label>Year</label>
+            <input type="text"
+                   id="year"
+                   name="year"
+                   readonly>
+        </div>
+
+        <div>
+            <label>Department</label>
+            <input type="text"
+                   id="department"
+                   name="department"
+                   readonly>
+        </div>
+
+        <div>
+            <label>Date</label>
+            <input type="date" name="date" id="dateField" required>
+        </div>
+
+        <div>
+            <label>Number of Times Late</label>
+            <input type="number" name="late_count" min="1" required>
+        </div>
+
+        <div class="full">
+            <label>Time (IST)</label>
+            <div class="time-group">
+                <input type="text" id="timeField" name="time" required>
+                <select id="ampmField" name="ampm">
+                    <option>AM</option>
+                    <option>PM</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="full">
+            <label>Reason for Late Arrival</label>
+            <textarea name="reason" required></textarea>
+        </div>
+
+    </div>
+
+    <button type="submit">Submit Report</button>
+
+    </form>
+</div>
+
+<script>
+function setIST() {
+    const nowUTC = new Date();
+    const istTime = new Date(nowUTC.getTime() + (5.5 * 60 * 60 * 1000));
+
+    let hours = istTime.getUTCHours();
+    let minutes = istTime.getUTCMinutes();
+
+    let ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12;
+
+    document.getElementById("timeField").value =
+        String(hours).padStart(2, "0") + ":" +
+        String(minutes).padStart(2, "0");
+
+    document.getElementById("ampmField").value = ampm;
+    document.getElementById("dateField").value =
+        istTime.toISOString().slice(0, 10);
+}
+
+setIST();
+</script>
+
+</body>
+</html>

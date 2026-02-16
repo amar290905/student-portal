@@ -1,0 +1,11 @@
+Watching for file changes with StatReloader
+[07/Jan/2026 19:17:13] "GET / HTTP/1.1" 200 1310
+[07/Jan/2026 19:17:43] "GET /dashboard/ HTTP/1.1" 200 11499
+[07/Jan/2026 19:17:43] "GET /add-cases/ HTTP/1.1" 200 1416
+[07/Jan/2026 19:17:43] "GET /teacher-login/ HTTP/1.1" 200 2569
+[07/Jan/2026 19:17:43] "GET /student-login/ HTTP/1.1" 200 2689
+[07/Jan/2026 19:17:43] "GET / HTTP/1.1" 200 1310
+[07/Jan/2026 19:17:43] "GET /teacher-dashboard/ HTTP/1.1" 200 1299
+[07/Jan/2026 19:17:43] "GET /committee/ HTTP/1.1" 200 892
+[07/Jan/2026 19:17:56] "GET /static/DisciplineCommittee/style.css HTTP/1.1" 200 11960
+[07/Jan/2026 19:18:06] "GET /static/DisciplineCommittee/script.js HTTP/1.1" 200 2834

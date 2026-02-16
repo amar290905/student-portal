@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Other Disciplinary Action Report</title>
+
+{% load static %}
+<link rel="icon" type="image/svg+xml" href="{% static 'DisciplineCommittee/favicon.svg' %}">
+
+<style>
+/* ===== GLOBAL THEME ===== */
+body{
+    margin:0;
+    font-family: "Segoe UI", sans-serif;
+    background: #08162a;           /* dark navy */
+    color: #ffffff;                /* white text */
+}
+
+.container{
+    max-width: 800px;
+    margin: 40px auto;
+    background: #0c1f3f;            /* navy card */
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+
+.header h2{
+    text-align:center;
+    margin-bottom:25px;
+    color:#ffffff;
+}
+
+/* ===== FORM ELEMENTS ===== */
+label{
+    display:block;
+    margin-bottom:6px;
+    font-weight:600;
+    color:#ffffff;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:12px;
+    margin-bottom:16px;
+    background:#08162a;
+    color:#ffffff;
+    border:1px solid #3b82f6;
+    border-radius:8px;
+    font-size:15px;
+}
+
+input::placeholder,
+textarea::placeholder{
+    color:#cbd5e1;
+}
+
+input[readonly]{
+    background:#102a52;
+    opacity:0.9;
+}
+
+textarea{
+    resize:vertical;
+    min-height:100px;
+}
+
+/* ===== ROW LAYOUT ===== */
+.row{
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;   /* ⭐ allows wrapping instead of overlap */
+}
+
+.row > div{
+    flex: 1 1 48%;     /* ⭐ ensures proper spacing */
+    min-width: 220px;  /* ⭐ prevents squeezing */
+}
+
+
+/* ===== DROPDOWNS ===== */
+select option{
+    background:#08162a;
+    color:#ffffff;
+}
+
+/* ===== FOCUS ===== */
+input:focus,
+select:focus,
+textarea:focus{
+    outline:none;
+    border-color:#60a5fa;
+    box-shadow:0 0 0 2px rgba(96,165,250,0.4);
+}
+
+/* ===== BUTTON ===== */
+button{
+    width:100%;
+    padding:14px;
+    background:#1d4ed8;
+    color:#ffffff;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:background 0.3s ease;
+}
+
+button:hover{
+    background:#2563eb;
+}
+
+/* Smaller inputs ONLY for Year & Department */
+.compact{
+    padding: 6px 10px;
+    font-size: 12.5px;
+    height: 36px;
+}
+    
+</style>
+
+<script>
+function fetchStudent() {
+    const usn = document.getElementById("usn").value;
+
+    if (!usn) return;
+
+    fetch(`/api/get-student/?usn=${usn}`)
+        .then(response => {
+            if (!response.ok) throw new Error("Not found");
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById("name").value = data.name;
+            document.getElementById("year").value = data.year;
+            document.getElementById("department").value = data.department;
+        })
+        .catch(() => {
+            alert("Student not found");
+            document.getElementById("name").value = "";
+            document.getElementById("year").value = "";
+            document.getElementById("department").value = "";
+        });
+}
+</script>
+
+</head>
+
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2>Other Disciplinary Action Report</h2>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label>UUCMS / USN Number</label>
+        <input type="text"
+               id="usn"
+               name="usn"
+               placeholder="Enter UUCMS / USN"
+               onblur="fetchStudent()"
+               required>
+
+        <label>Student Name</label>
+        <input type="text"
+               id="name"
+               name="name"
+               readonly>
+
+        <div class="row">
+            <div>
+                <label>Year</label>
+                <input type="text"
+                       id="year"
+                       name="year"
+                       class="compact"
+                       readonly>
+            </div>
+
+            <div>
+                <label>Department</label>
+                <input type="text"
+                       id="department"
+                       name="department"
+                       class="compact"
+                       readonly>
+            </div>
+        </div>
+
+        <div class="row">
+            <div>
+                <label>Date</label>
+                <input id="dateField"
+                       name="date"
+                       type="date"
+                       required>
+            </div>
+        </div>
+
+        <label>Description of the Incident</label>
+        <textarea name="description"
+                  placeholder="Provide a detailed description of the disciplinary issue."
+                  required></textarea>
+
+        <label>Action / Remarks</label>
+        <textarea name="descrition"
+                  placeholder="Record any action taken or observations."
+                  required></textarea>
+
+        <button type="submit">Submit Report</button>
+    </form>
+</div>
+
+<script>
+document.getElementById("dateField").value =
+    new Date().toISOString().split("T")[0];
+</script>
+
+</body>
+</html>
