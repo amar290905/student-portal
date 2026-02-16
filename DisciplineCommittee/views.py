@@ -24,7 +24,6 @@ def index(request):
     return render(request, 'index.html')
 
 
-@login_required(login_url='teacher_login')
 def case_late(request):
     if request.method == "POST":
         print(request.POST)  # 👈 DEBUG
@@ -50,7 +49,6 @@ def case_late(request):
 
     return render(request, "Late Arrival.html")
 
-@login_required(login_url='teacher_login')
 def add_case(request):
     if request.method == "POST":
         usn = request.POST.get("usn")
@@ -74,7 +72,6 @@ def add_case(request):
         return redirect("teacher_dashboard")
     return render(request, "add_case.html")
 
-@login_required(login_url='teacher_login')
 def get_student(request):
     usn = request.GET.get('usn')
 
@@ -251,7 +248,6 @@ def teacher_register(request):
 
     return render(request, "teacher-register.html")
 
-@login_required(login_url='teacher_login')
 def teacher_dashboard(request):
     # Filter cases created by the current teacher only
     cases = Case.objects.filter(created_by=request.user).order_by("-created_at")[:10]
@@ -308,7 +304,6 @@ def uniform_violations(request):
 
     return render(request, "Uniform Violations.html")
 
-@login_required(login_url='teacher_login')
 def academic_misconduct(request):
     if request.method == "POST":
         print(request.POST)  # DEBUG (optional)
