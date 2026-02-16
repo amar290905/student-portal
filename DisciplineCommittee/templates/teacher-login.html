@@ -23,48 +23,50 @@
       <h2>Teacher Login</h2>
       <div id="status" class="status-message"></div>
 
-      <form onsubmit="handleTeacherLogin(event)">
-        <div class="input-group">
-          <input id="teacher-email" type="email" placeholder="Email" required>
-        </div>
+      <form onsubmit="handleTeacherLogin(event)" method="post">
+  {% csrf_token %}
+  <div class="input-group">
+    <input id="teacher-email" type="email" name="email" placeholder="Email" required>
+  </div>
 
-        <div class="input-group">
-          <input id="teacher-pass" type="password" placeholder="Password" required>
-          <button class="show-pass" type="button" onclick="togglePassword('teacher-pass', this)">Show</button>
-        </div>
+  <div class="input-group">
+    <input id="teacher-pass" type="password" name="password" placeholder="Password" required>
+    <button class="show-pass" type="button" onclick="togglePassword('teacher-pass', this)">Show</button>
+  </div>
 
-        {% if request.GET.next %}
-        <input type="hidden" id="next-url" value="{{ request.GET.next }}">
-        {% endif %}
+  {% if request.GET.next %}
+  <input type="hidden" name="next" value="{{ request.GET.next }}">
+  {% endif %}
 
-        <button class="login-btn" type="submit">Login</button>
+  <button class="login-btn" type="submit">Login</button>
 
-        <div class="form-footer">
-          Don't have an account? <a href="#" onclick="toggleRegister('teacher', true); return false;">Register</a>
-        </div>
+  <div class="form-footer">
+    Don't have an account? <a href="#" onclick="toggleRegister('teacher', true); return false;">Register</a>
+  </div>
 
-        <div class="form-footer">
-          <a href="{% url 'teacher_forgot_password' %}">Forgot Password?</a> 
-        </div>
-      </form>
+  <div class="form-footer">
+    <a href="{% url 'teacher_forgot_password' %}">Forgot Password?</a> 
+  </div>
+</form>
 
       <div id="teacher-register" style="display:none; margin-top:18px;">
-        <hr style="margin:12px 0; opacity:0.2;">
-        <h3 style="text-align:center; margin-bottom:12px;">Teacher Register</h3>
-        <form onsubmit="handleTeacherRegister(event)">
-          <div class="input-group">
-            <input id="t-email" type="email" placeholder="Email" required>
-          </div>
-          <div class="input-group">
-            <input id="t-pass" type="password" placeholder="Password" required>
-            <button class="show-pass" type="button" onclick="togglePassword('t-pass', this)">Show</button>
-          </div>
-          <button class="login-btn" type="submit">Register</button>
-          <div class="form-footer">
-            <a href="#" onclick="toggleRegister('teacher', false); return false;">Back to Login</a>
-          </div>
-        </form>
-      </div>
+  <hr style="margin:12px 0; opacity:0.2;">
+  <h3 style="text-align:center; margin-bottom:12px;">Teacher Register</h3>
+  <form onsubmit="handleTeacherRegister(event)" method="post" action="{% url 'teacher_register' %}">
+    {% csrf_token %}
+    <div class="input-group">
+      <input id="t-email" type="email" name="email" placeholder="Email" required>
+    </div>
+    <div class="input-group">
+      <input id="t-pass" type="password" name="password" placeholder="Password" required>
+      <button class="show-pass" type="button" onclick="togglePassword('t-pass', this)">Show</button>
+    </div>
+    <button class="login-btn" type="submit">Register</button>
+    <div class="form-footer">
+      <a href="#" onclick="toggleRegister('teacher', false); return false;">Back to Login</a>
+    </div>
+  </form>
+</div>
     </div>
   </main>
 

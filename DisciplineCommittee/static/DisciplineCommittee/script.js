@@ -58,15 +58,52 @@ function handleStudentRegister(e) {
 
 function handleTeacherLogin(e) {
   e.preventDefault();
-  showStatus('✅ Teacher login successful!', 'success');
-  setTimeout(() => { window.location.href = '/teacher-dashboard/'; }, 700);
+  const form = e.target;
+  const formData = new FormData(form);
+  
+  fetch(form.action || '/teacher/login/', {
+    method: 'POST',
+    body: formData,
+  })
+  .then(response => {
+    if (response.ok) {
+      showStatus('✅ Teacher login successful!', 'success');
+      setTimeout(() => { 
+        const nextUrl = document.querySelector('input[name="next"]')?.value;
+        window.location.href = nextUrl || '/teacher-dashboard/';
+      }, 700);
+    } else {
+      showStatus('❌ Invalid credentials', 'error');
+    }
+  })
+  .catch(error => {
+    showStatus('❌ Login failed: ' + error.message, 'error');
+  });
 }
 
 function handleTeacherRegister(e) {
   e.preventDefault();
-  showStatus('✅ Teacher registration successful!', 'success');
-  ['t-email','t-pass'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
-  toggleRegister('teacher', false);
+  const form = e.target;
+  const formData = new FormData(form);
+  
+  fetch('/teacher/register/', {
+    method: 'POST',
+    body: formData,
+  })
+  .then(response => {
+    if (response.ok) {
+      showStatus('✅ Teacher registration successful!', 'success');
+      setTimeout(() => {
+        toggleRegister('teacher', false);
+        document.querySelector('#teacher-register form').reset();
+      }, 700);
+    } else {
+      showStatus('❌ Registration failed', 'error');
+    }
+  })
+  .catch(error => {
+    showStatus('❌ Registration failed: ' + error.message, 'error');
+  });
 }
 
 function toggleRegister(kind, show) {
